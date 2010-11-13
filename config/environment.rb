@@ -13,6 +13,7 @@ require 'authority'
 require 'set'
 require 'csv'
 
+
 def flatten_keys(hsh, prefix='')
   hsh.to_a.inject({}) do |memo, pair|
     k,v = pair
@@ -32,9 +33,9 @@ SETTINGS = flatten_keys YAML.load_file('config/settings/keys.yml')
 
 Rails::Initializer.run do |config|
   
-  if ENV['RAILS_ENV'] == 'production'
+  #if ENV['RAILS_ENV'] == 'production'
     config.active_record.observers = :user_observer, :update_observer
-  end
+  #end
   config.active_record.colorize_logging = false
   
   config.gem 'vpim'
@@ -44,6 +45,8 @@ Rails::Initializer.run do |config|
   config.gem 'acts_as_archive'
   config.gem 'rubyzip', :lib => 'zip/zip'
   config.gem 'rack-rewrite'
+
+  config.gem 'delayed_job'
 
   require 'rack-rewrite'
   config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
